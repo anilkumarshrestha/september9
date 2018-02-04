@@ -2,8 +2,8 @@
 require_once 'config.php';
 
 //define variables and initialize with empty values
-$email= $password = $confirm_password = "";
-$email_err = $password_err = $confirm_password_err = "";
+$email= $password = $confirm_password = $uname = $fname = $phone = "";
+$email_err = $password_err = $confirm_password_err = $uname_err = $fname_err = $phone_err = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     //VALIDATE USERNAME
@@ -23,7 +23,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
                 if ($stmt->rowCount() == 1){
                     $email_err="This email is already taken.";
-                    
+
                 }else {
                     $email = trim($_POST["email"]);
                 }
@@ -57,59 +57,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 
-    //check for errors before inserting into database
-    if(empty($email_err) && empty($password_err) && empty($confirm_password_err)){
-
-
-
-    // Prepare an insert statement
-
-    $sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
-
-
-
-    if($stmt = $pdo->prepare($sql)){
-
-        // Bind variables to the prepared statement as parameters
-
-        $stmt->bindParam(':email', $param_email, PDO::PARAM_STR);
-
-        $stmt->bindParam(':password', $param_password, PDO::PARAM_STR);
-
-
-
-        // Set parameters
-
-        $param_email = $email;
-
-        $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-
-
-
-        // Attempt to execute the prepared statement
-
-        if($stmt->execute()){
-
-            // Redirect to login page
-
-            header("location: login.php");
-
-        } else{
-
-            echo "Something went wrong. Please try again later.";
-
+    if(empty(trim($_POST["uname"]))){
+        $confirm_password_err = 'Username cannot be left empty.';
+    } else{
+        $confirm_password = trim($_POST['confirm_password']);
+        if($password != $confirm_password){
+            $confirm_password_err = "Password did not match.";
         }
-
     }
 
+    $fields = array("uname", "fname", "phone");
+    $input = array();
+    $err = array();
+    foreach ($fields as $field) {
+      if(empty(trim($_POST[$field]))){
+          $err[$field] = 'This field cannot be left empty.';
+      } else{
+            $input[$field] = trim($_POST[$field]);
+      }
+    }
 
-
-    // Close statement
-
-    unset($stmt);
-
-}
-
+    $uname_err = $err["uname"];
+    $fname_err = $err["fname"];
+    $phone_err = $err["phone"];
 
 
 // Close connection
@@ -127,20 +97,56 @@ unset($pdo);
     <title>Register</title>
     <link rel="stylesheet" href="style/css/bootstrap.css">
     <link rel="stylesheet" href="style/css/style.css">
+    <style>
+    body{
+      padding-top: 70px;
+    }
+    </style>
 </head>
 
 
 <body>
 
-<header>
-    <a href="index.php">
-        <div class="class-heading" style='
-            margin-bottom:20px;
-            padding: 10px 20px;'>
-            <h1><b>September9</b> |<span id="share-happiness"> Share gifts share happiness</span></h1>
-        </div>
-    </a>
-</header>
+  <header>
+      <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="container">
+  	<div class="navbar-header">
+  		<a class="navbar-brand" href="/">September9</a>
+  	</div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="nav navbar-nav">
+        <li>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </li>
+      <?php
+      if (!isset($_SESSION["email"])) {
+      ?>
+				<li ><a href="login.php" >Log In</a></li>
+				<li><a href="register.php" >Register</a></li>
+        <?php
+        } else  { ?>
+            <li class="nav-item">
+             <a class="nav-link" href="logout.php">Logout</a>
+            </li>
+        <?php
+        }
+        ?>
+			</ul>
+		</div>
+
+
+
+    </div>
+  </div>
+
+  </nav>
+  </header>
+
     <div class="wrapper">
         <h2>Register</h2>
 
@@ -157,6 +163,34 @@ unset($pdo);
                 <span class="help-block"><?php echo $email_err; ?></span>
 
             </div>
+
+            <div class="form-group <?php echo (!empty($fname_err)) ? 'has-error' : ''; ?>">
+
+                            <label>Name:<sup>*</sup></label>
+
+                            <input type="text" name="fname"class="form-control" value="<?php echo $fname; ?>">
+
+                            <span class="help-block"><?php echo $fname_err; ?></span>
+
+                        </div>
+                        <div class="form-group <?php echo (!empty($uname_err)) ? 'has-error' : ''; ?>">
+
+                            <label>Username:<sup>*</sup></label>
+
+                            <input type="text" name="uname" class="form-control" value="<?php echo $uname; ?>">
+
+                            <span class="help-block"><?php echo $uname_err; ?></span>
+
+                        </div>
+                    <div class="form-group <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
+
+                          <label>Phone number:<sup>*</sup></label>
+
+                          <input type="text" name="phone" class="form-control" value="<?php echo $phone; ?>">
+
+                          <span class="help-block"><?php echo $phone_err; ?></span>
+
+                      </div>
 
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
 

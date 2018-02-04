@@ -2,7 +2,7 @@
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME','darkcloud');
 define('DB_PASSWORD','1997anilksd');
-define('DB_NAME','UserInfo');
+define('DB_NAME','september9');
 
 
 /*connecting to mysql database*/

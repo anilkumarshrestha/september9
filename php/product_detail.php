@@ -3,32 +3,21 @@ require_once 'config.php';
 
 session_start();
 
+
 ?>
 
 <html>
 <head>
     <title>september9</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/style/css/bootstrap.css" />
     <link rel="stylesheet" href="/style/css/style.css">
-    <script src="/style/js//1.12.4/jquery.min.js"></script>
-    <script src="/style/js/bootstrap.min.js"></script>
-
-    <style type="text/css">
+    <style>
     body{
-      padding-top: 60px;
-    }
-    .navbar-nav{
-      padding-top: 8px;
+      padding-top: 70px;
     }
     </style>
 </head>
-
-
 <body>
-
   <header>
     <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -77,55 +66,37 @@ session_start();
   </div>
   </nav>
   </header>
-<!--slide bar-->
 
-<div class="category" width:350 height:200>
-  <div class="hovereffect">
-      <img class="img-responsive" src="/images/mother.jpg" alt="">
-      <div class="overlay">
-         <h2>FOR MOTHER</h2>
-         <a class="info" href="index-mother.php">Find here</a>
-      </div>
-  </div>
-</div>
 
-<div>
-<div class="category">
-  <div class="hovereffect">
-<img class="img-responsive" src="/images/father.png" alt="">
-<div class="overlay">
-   <h2>FOR FATHER</h2>
-   <a class="info" href="index-father.php">Find here</a>
-</div>
-  </div>
-</div>
 
-<div class="category">
-  <div class="hovereffect">
-<img class="img-responsive" src="/images/mother.jpg" alt="">
-<div class="overlay">
-   <h2>FOR GIRLS</h2>
-   <a class="info" href="index-girls.php">Find here</a>
-</div>
-  </div>
-</div>
 
-<div class="category">
-  <div class="hovereffect">
-<img class="img-responsive" src="/images/mother.jpg" alt="">
-<div class="overlay">
-   <h2>FOR BOYS</h2>
-   <a class="info" href="index-boys.php">Find here</a>
-</div>
-  </div>
-</div>
-</div>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
+    $prod_id = $_GET["id"];
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id=?");
+    $stmt->bindParam(1, $prod_id);
+    if (!$stmt->execute()) {
+        print "Database error.";
+        exit;
+    }
 
+    $row = $stmt->fetch();
+    unset($stmt);
+?>
+
+    <p class="prod-title"><?php echo $row["name"];?></p>
+        <img class="prod-img" width="356px" src="<?php echo $row["image"]; ?>">
+        <p class="price">रू<?php echo $row["price"]; ?></p>
+<?php
+}
+?>
 
 <footer class="footer">
-  <div class="class-footer" style='
-      padding: 10px 20px;'>
-      <p>&copy; September9 2017</p>
-  </div>
-</footer>
+            <p>&copy; September9 2017</p>
+          </footer>
+
+
+
+
 </body>
+</html>
