@@ -13,6 +13,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $email = trim($_POST["email"]);
     }
 
+    if(empty(trim($_POST["name"]))){
+        $name_err = 'Please enter name.';
+    } else {
+        $name = trim($_POST["name"]);
+    }
+
+
+    $address = trim($_POST["address"]);
+    $dateofbirth = trim($_POST["dateofbirth"]);
+    $gender = trim($_POST["gender"]);
+    $phone = trim($_POST["phone"]);
+
     if(empty(trim($_POST["password"]))){
         $password_err = 'Please enter your password';
     } else {
@@ -59,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         //close connection
         unset($pdo);
-    }    
+    }
 
 }
 ?>
@@ -72,17 +84,52 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>Log In | september9</title>
     <link rel="stylesheet" href="style/css/bootstrap.css">
     <link rel="stylesheet" href="style/css/style.css">
+    <style>
+    body{
+      padding-top: 70px;
+    }
+    </style>
 </head>
 <body>
-<header>
-    <a href="index.php">
-        <div class="class-heading" style='
-            margin-bottom:20px;
-            padding: 10px 20px;'>
-            <h1><b>September9</b> |<span id="share-happiness"> Share gifts share happiness</span></h1>
-        </div>
-    </a>
-</header>
+  <header>
+      <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">September9</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="nav navbar-nav">
+        <li>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </li>
+      <?php
+      if (!isset($_SESSION["email"])) {
+      ?>
+        <li ><a href="login.php" >Log In</a></li>
+        <li><a href="register.php" >Register</a></li>
+        <?php
+        } else  { ?>
+            <li class="nav-item">
+             <a class="nav-link" href="logout.php">Logout</a>
+            </li>
+        <?php
+        }
+        ?>
+      </ul>
+    </div>
+
+
+
+    </div>
+  </div>
+
+  </nav>
+  </header>
 
 
     <div class="wrapper">
@@ -101,7 +148,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 <span class="help-block"><?php echo $email_err; ?></span>
 
-            </div>    
+            </div>
 
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
 
@@ -120,6 +167,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
 
             <p>Don't have an account? <a href="register.php">Register</a>.</p>
+            <p><a href="/admin/index.php">Go to Admin Login</a>.</p>
 
         </form>
 
