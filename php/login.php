@@ -13,17 +13,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $email = trim($_POST["email"]);
     }
 
+    /*
     if(empty(trim($_POST["name"]))){
         $name_err = 'Please enter name.';
     } else {
         $name = trim($_POST["name"]);
     }
+    */
 
-
+    /*
     $address = trim($_POST["address"]);
     $dateofbirth = trim($_POST["dateofbirth"]);
     $gender = trim($_POST["gender"]);
     $phone = trim($_POST["phone"]);
+    */
 
     if(empty(trim($_POST["password"]))){
         $password_err = 'Please enter your password';
@@ -34,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //validate credentials
     if(empty($email_err) && empty($password_err)){
         //prepare a select statement
-        $sql = "SELECT email, password FROM users WHERE email = :email";   //select column1, column2,.. FROM tablename
+        $sql = "SELECT id, email, password FROM users WHERE email = :email";   //select column1, column2,.. FROM tablename
         if($stmt = $pdo->prepare($sql)){
             //bind variable to prepared statement as parameters
             $stmt->bindParam(':email',$param_email, PDO::PARAM_STR);
@@ -49,9 +52,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     if($row = $stmt->fetch()){
                         $hashed_password = $row['password'];
                         if(password_verify($password,$hashed_password)){
+                        //if($password == $hashed_password){
                             //password true
                             session_start();
+
                             $_SESSION['email']= $email;
+                            $_SESSION['id']= $row["id"];
                             header("location: index.php");
                         } else {
                             $password_err = 'Password Incorrect';
@@ -91,46 +97,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
-  <header>
-      <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">September9</a>
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="nav navbar-nav">
-        <li>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </li>
-      <?php
-      if (!isset($_SESSION["email"])) {
-      ?>
-        <li ><a href="login.php" >Log In</a></li>
-        <li><a href="register.php" >Register</a></li>
-        <?php
-        } else  { ?>
-            <li class="nav-item">
-             <a class="nav-link" href="logout.php">Logout</a>
-            </li>
-        <?php
-        }
-        ?>
-      </ul>
-    </div>
-
-
-
-    </div>
-  </div>
-
-  </nav>
-  </header>
-
+<?php include "header.php";?>
 
     <div class="wrapper">
 
@@ -172,6 +139,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </form>
 
     </div>
+    <?php include "footer.php"?>
 
 </body>
 

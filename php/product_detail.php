@@ -9,67 +9,29 @@ session_start();
 <html>
 <head>
     <title>september9</title>
-    <link rel="stylesheet" href="/style/css/bootstrap.css" />
-    <link rel="stylesheet" href="/style/css/style.css">
-    <style>
-    body{
-      padding-top: 70px;
-    }
-    </style>
+    <meta char="UTF-8">
+    <title>Register</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="style/css/bootstrap.css">
+      <link rel="stylesheet" href="style/css/style.css">
+      <script src="/style/js/jquery.min.js"></script>
+      <script src="/style/js/bootstrap.min.js"></script>
+      <style type="text/css">
+      body{
+        padding-top: 70px;
+        margin-left: 20px;
+      }
+      /*padding*/
+      .bpadding{
+      margin-top: 15px;
+      }
+
+      </style>
 </head>
 <body>
-  <header>
-    <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="container">
-        <div class="navbar-header">
-          <div class="navbar-header">
-                 <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                     <span class="sr-only">Toggle navigation</span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                 </button>
-        <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">September9</a>
-      </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <form class="navbar-form navbar-left">
-                  <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Search">
-                      <span class="input-group-btn">
-                          <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                      </span>
-                  </div>
-            </form>
-
-          <?php
-          if (!isset($_SESSION["email"])) {
-          ?>
-          <ul class="nav navbar-nav navbar-right">
-            <li ><a href="login.php" >Log In</a></li>
-            <li><a href="register.php" >Register</a></li>
-            <?php
-            } else  { ?>
-
-                <li>
-                 <a href="logout.php">Logout</a>
-                </li>
-            <?php
-            }
-            ?>
-          </ul>
-    </div>
-    </div>
-  </div>
-  </nav>
-  </header>
-
-
-
-
+  <?php include "header.php"; ?>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     $prod_id = $_GET["id"];
@@ -84,18 +46,57 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     unset($stmt);
 ?>
 
-    <p class="prod-title"><?php echo $row["name"];?></p>
-        <img class="prod-img" width="356px" src="<?php echo $row["image"]; ?>">
-        <p class="price">रू<?php echo $row["price"]; ?></p>
+<div class="bs-example">
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="fathpg.php">For Father</a></li>
+        <li class="active"><?php echo $row["name"];?></li>
+    </ul>
+</div>
+
+<div class ="container-fluid">
+    <div id="leftside"> 
+        <img class="imgcrop" width="356px" src="<?php echo $row["image"]; ?>">
+    </div>
+    <div id="rightside">
+        <h1 class="head"><?php echo $row["name"];?></h1><br>
+        <br>
+        <p class="drawline"></p>
+        <br>
+        <label for="color"><span class="color">Color:</span><br></label>
+        <select class ="box">
+            <option>white</option>
+            <option>Black</option>
+            <option>Grey</option>
+            <option>While</option>
+            <option>maroon</option>
+        </select>
+
+        <br>
+        <br>
+        <label for="color"><span class="color">Size:</span><br></label>
+        <select class="box">
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+            <option>X-large</option>
+        </select>
+        <br>
+        <?php echo $row["description"]; ?>
+        <br>
+        <br>
+        <p span class="bold">रू <?php if($row["specialoffer"] !== "0") {echo "<strike>" . $row["price"]. "</strike> " . $row["specialoffer"];} else { echo $row["price"];} ?> </span></p>
+
+        <a class="button" href="order.php?id=<?php echo $row["id"]; ?>" class="orderbtn">ORDER NOW</a>
+    <br>
+            <iframe width="400" height="315" src="<?php echo $row["youtubelink"]; ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+           
+    </div>
+</div>
 <?php
 }
 ?>
-
-<footer class="footer">
-            <p>&copy; September9 2017</p>
-          </footer>
-
-
+<?php include "footer.php"?>
 
 
 </body>

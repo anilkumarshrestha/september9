@@ -10,7 +10,7 @@ session_start();
     <title>september9</title>
     <link rel="stylesheet" href="/style/css/bootstrap.css" />
     <link rel="stylesheet" href="/style/css/style.css">
-</head>
+</head>min/index.php
 
 
 <body>
@@ -32,13 +32,13 @@ session_start();
             exit;
         }
         while ($row = $stmt->fetch()) {
-				
+
 				$to = $row["email"];
 				$subject = "Valentine day remainder!";
 				$txt = "Valentine's Day is ready and so are our gifts. Grab your's today!";
 				$headers = "From: anilkumarshrestha@yahoo.com";
 				mail($to,$subject,$txt,$headers);
-				?> 							  
+				?>
 
         <?php
         }
@@ -50,7 +50,7 @@ session_start();
             <p>&copy; September9 2017</p>
           </footer>
 
-          
+
 
 
 </body>

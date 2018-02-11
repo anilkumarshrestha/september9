@@ -27,18 +27,18 @@
 		if ($result->num_rows === 1) {
 				$values = $result->fetch_assoc();
 		} else {
-		    echo "The username or password is incorrect.";
+		    echo "There are no matching records.";
 		}
 	}
 
-        if (isset($_POST["eliminate"])) {
-            foreach($_POST["prod"] as $prod) {
-                $id = $prod;
-                $stmt = $pdo->prepare("DELETE FROM products WHERE id=?");
-                $stmt->bindParam(1, $id);
-                $stmt->execute();
-            }
-        }
+      //  if (isset($_POST["eliminate"])) {
+        //    foreach($_POST["prod"] as $prod) {
+          //      $id = $prod;
+            //    $stmt = $pdo->prepare("DELETE FROM products WHERE id=?");
+              //  $stmt->bindParam(1, $id);
+          //      $stmt->execute();
+          //  }
+      //  }
 
 
 	if(isset($_GET["update"]) && ($_SERVER["REQUEST_METHOD"] == "POST")) {
@@ -85,7 +85,7 @@
                 $stmt->execute();
             }
         }elseif($_SERVER["REQUEST_METHOD"] == "POST"){
-		$fields = array("prname", "price","cat_id", "description", "tags", "offer");
+		$fields = array("prname", "price","cat_id", "description", "tags", "offer","youtubelink");
 		$input = array();
 		foreach($fields as $field) {
 			if(!empty(trim($_POST[$field]))) {
@@ -132,7 +132,7 @@
 		$input["image"] = substr(($target_dir . $_FILES["image"]["name"]), 3);
 
 		if($uploadOk === 1) {
-			$sql = "INSERT INTO `products` (`id`, `name`, `image`, `price`,`cat_id`, `description`, `tags`, `specialoffer`) VALUES (NULL, '".$input["prname"]."', '".$input["image"]."', '".$input["price"]."','".$input["cat_id"]."', '".$input["description"]."', '".$input["tags"]."', '".$input["offer"]."');";
+			$sql = "INSERT INTO `products` (`id`, `name`, `image`, `price`,`cat_id`, `description`, `tags`, `specialoffer`,`youtubelink`) VALUES (NULL, '".$input["prname"]."', '".$input["image"]."', '".$input["price"]."','".$input["cat_id"]."', '".$input["description"]."', '".$input["tags"]."', '".$input["offer"]."','".$input["youtubelink"]."');";
 
 			$result = $conn->query($sql);
 
@@ -154,44 +154,57 @@
 <body>
 	<?php if($loggedin === 1) {echo 'Welcome, '.$name.'!<br><a href="index.php?logout">Logout</a>'; } ?>
 
-	<h3>Add Products:</h3>
-	<form action="<?php if($update == 1) echo '?update';?>" method="POST" enctype="multipart/form-data">
-		<?php if($update == 1) { ?>
-			<input name="id" type="hidden" value="<?php echo $values["id"]; ?>">
-		<?php		} ?>
-			Name: <input type="text" name="prname" value="<?php if($update == 1)  echo $values["name"]; ?>" autocomplete="off"><br>
-			Price: <input type="text" name="price" value="<?php if($update == 1)  echo $values["price"]; ?>" autocomplete="off"><br>
-			Categories: <input type="text" name="cat_id" value="<?php if($update == 1)  echo $values["cat_id"]; ?>" autocomplete="off"><br>
-			Description: <textarea name="description"><?php if($update == 1)  echo $values["description"]; ?></textarea><br>
-			Tags: <input type="text" name="tags" value="<?php if($update == 1)  echo $values["tags"]; ?>" autocomplete="off"><br>
-			Offer: <input type="text" name="offer" value="<?php if($update == 1)  echo $values["specialoffer"]; ?>" autocomplete="off"><br>
-			Image: <input type="file" name="image"><br>
-			<?php if($update == 1) {
-					echo ('<input type="submit" value="Update"><input type="submit" name="delete" value="Delete">');
-			} else {
-				echo ('<input type="submit" value="Add">');
-			}
-			?>
-	</form>
+        <div>
+            <a href="search.php?p=update">Update</a>
+            <a href="search.php?p=delete">Delete</a>
+        </div>
 
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+				<a href="index.php">MAIN MENU</a>
+				<div style="text-align:center; margin-top:7%">
+				<div class="cont">
+					<h3>Add Products:</h3>
+					<form action="<?php if($update == 1) echo '?update';?>" method="POST" enctype="multipart/form-data">
+						<?php if($update == 1) { ?>
+							<input name="id" type="hidden" value="<?php echo $values["id"]; ?>">
+						<?php		} ?>
+					Name: <input type="text" name="prname" value="<?php if($update == 1)  echo $values["name"]; ?>" autocomplete="off"><br>
+					Price: <input type="text" name="price" value="<?php if($update == 1)  echo $values["price"]; ?>" autocomplete="off"><br>
+					Categories: <input type="text" name="cat_id" value="<?php if($update == 1)  echo $values["cat_id"]; ?>" autocomplete="off"><br>
+					Description: <textarea name="description"><?php if($update == 1)  echo $values["description"]; ?></textarea><br>
+					Tags: <input type="text" name="tags" value="<?php if($update == 1)  echo $values["tags"]; ?>" autocomplete="off"><br>
+					Offer: <input type="text" name="offer" value="<?php if($update == 1)  echo $values["specialoffer"]; ?>" autocomplete="off"><br>
+					Image: <input type="file" name="image"><br>
+                                        YouTube link: <input type="text" name="youtubelink" autocomplete="off"><br>
+					<?php if($update == 1) {
+						echo ('<input type="submit" value="Update"><input type="submit" name="delete" value="Delete">');
+					} else {
+					echo ('<input type="submit" value="Add">');
+					}
+					?>
+					</form>
+				</div>
+			</div>
 
-<?php
+
+      <!--  <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+-->
+<!-- <?php
 $stmt = $pdo->prepare("SELECT * FROM products");
 $stmt->execute();
 
 echo "<table>\n";
-while ($row=$stmt->fetch()) { ?>
-    <tr>
+while ($row=$stmt->fetch()) { ?> -->
+    <!-- <tr>
     <td><?php echo $row["name"]; ?></td>
     <td><?php echo $row["id"]; ?></td>
     <td><input type="checkbox" name="prod[]" value="<?php echo $row["id"]; ?>"></td>
-    </tr>
-<?php
+    </tr> -->
+<!-- <?php
 }
-?>
+?> -->
+<!-- <br>
 <input type="submit" value="Eliminate" name="eliminate">
-</form>
+</form> -->
 
 </body>
 </html>
