@@ -32,7 +32,7 @@ session_start();
       }
     body{
       padding-top: 70px;
-
+      background-color: #eee;
     }
     /*padding*/
     .bpadding{
@@ -74,7 +74,7 @@ session_start();
 
 <div class="category">
   <div class="hovereffect">
-<img class="img-responsive" src="/images/mother.jpg" alt="">
+<img class="img-responsive" src="/images/webimg/mother.png" alt="">
 <div class="overlay">
    <h2>FOR MOTHER</h2>
    <a class="info" href="mothpg.php">Find here</a>
@@ -84,7 +84,7 @@ session_start();
 
 <div class="category">
   <div class="hovereffect">
-<img class="img-responsive" src="/images/father.png" alt="">
+<img class="img-responsive" src="/images/webimg/father.png" alt="">
 <div class="overlay">
    <h2>FOR FATHER</h2>
    <a class="info" href="fathpg.php">Find here</a>
@@ -94,7 +94,7 @@ session_start();
 
 <div class="category">
   <div class="hovereffect">
-<img class="img-responsive" src="/images/mother.jpg" alt="">
+<img class="img-responsive" src="/images/webimg/girl.png" alt="">
 <div class="overlay">
    <h2>FOR GIRLS</h2>
    <a class="info" href="girlpg.php">Find here</a>
@@ -104,7 +104,7 @@ session_start();
 
 <div class="category">
   <div class="hovereffect">
-<img class="img-responsive" src="/images/mother.jpg" alt="">
+<img class="img-responsive" height="10px" src="/images/webimg/boy.png" alt="">
 <div class="overlay">
    <h2>FOR BOYS</h2>
    <a class="info" href="boypg.php">Find here</a>
@@ -113,8 +113,10 @@ session_start();
 </div>
 </div>
 
+<div>
 
 <?php include "footer.php"?>
 
 </footer>
+</div>
 </body>

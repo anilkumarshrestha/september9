@@ -19,7 +19,7 @@ session_start();
       <style type="text/css">
       body{
         padding-top: 70px;
-
+        background-color: #eee;
       }
       /*padding*/
       .bpadding{
@@ -57,8 +57,8 @@ session_start();
 
 
 
-                <div class="col-sm-3">
-                  <a href="product_detail.php?id=<?php echo $row["id"]; ?>">
+                <div class="col-sm-3" style="mergin-left:30%;">
+                  <a href="product_detail.php?cat=F&id=<?php echo $row["id"]; ?>">
               	    <img src="<?php echo $row["image"]; ?>" class="img-fluid" alt="Responsive image">
                     <p class="prod-title"><?php echo $row["name"];?></p>
               	    <p class="price">रू <?php if($row["specialoffer"] !== "0") {echo "<strike>" . $row["price"]. "</strike> " . $row["specialoffer"];} else { echo $row["price"];} ?></p>

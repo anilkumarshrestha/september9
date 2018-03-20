@@ -20,7 +20,7 @@
                 <div class="input-group">
                     <input type="text" name="product" class="form-control" placeholder="Search">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                        <button type="button" class="btn btn-default" action="search.php"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
                 </div>
           </form>
@@ -34,6 +34,9 @@
           <?php
           } else  { ?>
               <ul class ="nav navbar-nav navbar-right" >
+                <li>
+                    <a href="wlist.php">My Wishlist</a>
+                </li>
               <li>
                <a href="logout.php">Logout</a>
               </li>

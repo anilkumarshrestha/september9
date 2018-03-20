@@ -12,4 +12,22 @@ try{
 } catch(PDOEXCEPTION $e){
     die("ERROR: Could not connect." . $e->getMessage());
 }
+
+function getCat($cat)
+{
+    if ($cat == 'F') {
+        return "Father";
+    }
+    elseif($cat == 'M'){
+        return "Mother";
+    }
+
+    elseif($cat == 'G'){
+        return "Girls";
+    }
+
+    elseif($cat == 'B'){
+        return "Boys";
+    }
+}
 ?>
