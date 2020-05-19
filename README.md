@@ -17,7 +17,7 @@ View orders
 
 Product page
 
-Remaining:
+Remaining(lots):
 Auto mail 
 Trending items
 Total amount a customer has bought and provide offers to those people
