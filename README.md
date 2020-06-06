@@ -1,21 +1,11 @@
-# web-project-ecommerce
-This is a web-project on e-commerce for my third semester.
-Not completed.
-Things we’ve acomplished(all accomplished):
-Registration
-Login logout
-Data connection
-Admin page
-Order page
+# September9
+This is a web-project on e-commerce for third semester at Kathmandu University. 
 
-What admin can do?(all acomplished)
-Add carousels
-Add products
-Update products
-Delete products
-View orders
+## Status
+This project is no more updated.
 
-Product page
+# License
+MIT License
 
 Remaining(lots):
 Auto mail 
